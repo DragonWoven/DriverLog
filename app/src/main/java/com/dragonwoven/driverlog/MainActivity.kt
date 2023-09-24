@@ -1,10 +1,7 @@
 package com.dragonwoven.driverlog
 import com.dragonwoven.driverlog.databinding.ActivityMainBinding
-
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 
 
 class MainActivity : AppCompatActivity() {
@@ -15,10 +12,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
         var going = false
 
-        val mainHandler = Handler(Looper.getMainLooper())
-        var i = 0
+
 
         fun timeDisplay(seconds:Int){
+            var text:String = ""
             var sec = seconds
             var minutes = 0
             var hours = 0
@@ -31,38 +28,35 @@ class MainActivity : AppCompatActivity() {
                 minutes - 60
             }
             if (hours != 0){
-                binding.tvTest.setText(hours.toString() + ":" + minutes.toString() + ":" + sec.toString())
+                text = "$hours:$minutes:$sec"
             }
             if (minutes != 0 && hours == 0){
-                binding.tvTest.setText(minutes.toString() + ":" + sec.toString())
+                text = "$minutes:$sec"
             }
             if(hours == 0 && minutes == 0){
-                binding.tvTest.setText(sec.toString())
+                text = sec.toString()
             }
+            binding.tvTest.text = text
 
         }
 
-        val timerTextTask = object : Runnable {
-            override fun run() {
-                i = i+1
-                timeDisplay(i)
-                mainHandler.postDelayed(this, 1000)
-            }
+        var i = 0
+        fun onTimeSec(){
+            i += 1
+            timeDisplay(i)
         }
-
+        var timer = UpTimer(::onTimeSec)
+        timer.Pause()
 
         binding.btntest.setOnClickListener(){
             if (!going){
                 going = true
-                mainHandler.post(timerTextTask)
+                timer.Unpause()
             }
             else{
                 going = false
-                mainHandler.removeCallbacks(timerTextTask)
+                timer.Pause()
             }
         }
     }
-
-
-
-    }
+}
