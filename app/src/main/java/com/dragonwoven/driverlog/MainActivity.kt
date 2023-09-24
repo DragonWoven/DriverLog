@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
 
 
         fun timeDisplay(seconds:Int){
-            var text:String = ""
+            var text = ""
             var sec = seconds
             var minutes = 0
             var hours = 0
@@ -23,9 +23,9 @@ class MainActivity : AppCompatActivity() {
                 minutes++
                 sec -= 60
             }
-            while(minutes > 60){
-                hours++
-                minutes - 60
+            while (minutes > 60){
+                minutes -= 60
+                hours += 1
             }
             if (hours != 0){
                 text = "$hours:$minutes:$sec"
@@ -45,17 +45,17 @@ class MainActivity : AppCompatActivity() {
             i += 1
             timeDisplay(i)
         }
-        var timer = UpTimer(::onTimeSec)
-        timer.Pause()
+        val timer = UpTimer(::onTimeSec)
+        timer.pause()
 
-        binding.btntest.setOnClickListener(){
+        binding.btntest.setOnClickListener{
             if (!going){
                 going = true
-                timer.Unpause()
+                timer.unpause()
             }
             else{
                 going = false
-                timer.Pause()
+                timer.pause()
             }
         }
     }

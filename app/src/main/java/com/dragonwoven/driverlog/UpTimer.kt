@@ -10,7 +10,7 @@ class UpTimer(timerRun: () -> Unit) {
 
 
 
-    val timerTextTask = object : Runnable {
+    private val timerTextTask = object : Runnable {
         override fun run() {
             timerRun()
             mainHandler.postDelayed(this, 1000)
@@ -20,11 +20,11 @@ class UpTimer(timerRun: () -> Unit) {
 
     }
 
-    fun Pause(){
+    fun pause(){
         mainHandler.removeCallbacks(timerTextTask)
     }
 
-    fun Unpause(){
+    fun unpause(){
         mainHandler.post(timerTextTask)
     }
 
